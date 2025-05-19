@@ -5,8 +5,8 @@ import qiskit
 from qiskit import *
 from qiskit_aer import AerSimulator
 from qiskit.quantum_info.operators import Operator
-import qutip as qt
-from qutip import mesolve, Qobj
+from qutip import *
+# from qutip import mesolve, Qobj
 
 
 # time/steps
@@ -58,14 +58,16 @@ result_qutip_y = mesolve(Qobj(H_1spin), Qobj(rho0_1spin), times, e_ops = Qobj(si
 # ---------------plotting--------------------------
 plt.rcParams['font.size'] = '16'
 fig, ax = plt.subplots(figsize=(9,6))
-ax.plot(times,result_qutip_Liouv.expect[0],alpha=0.3,linestyle='--',label='Liouville')
+ax.plot(times,result_qutip_Liouv.expect[0],alpha=0.3,linestyle='--',label=r'Liouville, $L = 0$')
 
 ax.plot(times,result_qutip.expect[0],label=r'Lindblad, $L \propto \sigma_x$')
 
 ax.plot(times,result_qutip_y.expect[0],label=r'Lindblad, $L \propto \sigma_y$')
 
+ax.set_title(r'$H \propto \sigma_x$')
 ax.set_xlabel('Time')
 ax.set_ylabel(r'$\sigma_z$')
 ax.legend()
 plt.show()
 # -------------------------------------------------
+
