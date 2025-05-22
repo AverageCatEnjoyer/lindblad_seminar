@@ -130,15 +130,23 @@ for state in result.states:
 
 
 # ---------------plotting--------------------------
-plt.rcParams['font.size'] = '16'
-fig, ax = plt.subplots(figsize=(9,6))
-ax.plot(times,overlaps_liouv,alpha=0.3,linestyle='--',label='Liouville')
+# plt.rcParams['font.size'] = '16'
+# fig, ax = plt.subplots(figsize=(9,6))
+# ax.plot(times,overlaps_liouv,alpha=0.3,linestyle='--',label='Liouville')
 
-ax.plot(times,overlaps,label='Lindblad')
+# ax.plot(times,overlaps,label='Lindblad')
 
 
-ax.set_xlabel('Time')
-ax.set_ylabel('Initial state overlap')
-ax.legend()
+# ax.set_xlabel('Time')
+# ax.set_ylabel('Initial state overlap')
+# ax.legend()
+# plt.show()
+# exit()
+# -------------------------------------------------
+
+
+# -------------------------------------------------
+qt.plot_fock_distribution(result.states[-1])
+plt.title("Spin Chain")
 plt.show()
 # -------------------------------------------------

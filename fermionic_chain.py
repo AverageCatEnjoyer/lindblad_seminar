@@ -3,11 +3,11 @@ import numpy as np
 import qutip as qt
 
 # System parameters
-N = 6 # Number of sites
-t = 1.0  # Hopping amplitude
+N = 8 # Number of sites
+t = 1  # Hopping amplitude
 mu = 0 # Chemical potential
 F = 0 # Slope chemical potential rampage
-U = -0.5 # Interaction strength
+U = 0.5 # Interaction strength
 gamma_loss = 1  # Dissipation rate (electron loss)
 gamma_gain = 1  # Pumping rate (electron creation)
 
@@ -55,16 +55,16 @@ L.append(np.sqrt(gamma_loss) * annihilate(N-1, N))  # Electron loss
 
 # Initial State-----------------------------------------------------------
 
-# Occupied positions (can be any two neighboring sites)
-occupied_sites = [2, 3]
+# # Occupied positions (can be any two neighboring sites)
+# occupied_sites = [2, 3]
 
-# Build the list of basis states
-state_list = [qt.basis(2, 1) if i in occupied_sites else qt.basis(2, 0) for i in range(N)]
+# # Build the list of basis states
+# state_list = [qt.basis(2, 1) if i in occupied_sites else qt.basis(2, 0) for i in range(N)]
 
-# Tensor product to build the many-body state
-psi = qt.tensor(state_list)
+# # Tensor product to build the many-body state
+# psi = qt.tensor(state_list)
 
-rho0 = psi * psi.dag()
+# rho0 = psi * psi.dag()
 
 # old------
 # Initial state (vacuum state)
@@ -79,31 +79,31 @@ t_list = np.linspace(0, tmax, 100*tmax)
 # Solve the master equation
 result = qt.mesolve(H, rho0, t_list, L, [])
 
-anticommutator = create(3, N) * annihilate(3, N) + annihilate(3, N) * create(3, N)
+# anticommutator = create(3, N) * annihilate(3, N) + annihilate(3, N) * create(3, N)
 # print(anticommutator)
 
-commutator = - create(0, N) * annihilate(0, N) + annihilate(0, N) * create(0, N)
+# commutator = - create(0, N) * annihilate(0, N) + annihilate(0, N) * create(0, N)
 # print(commutator)
 
 
 # ------------------------------------------------------------------------
 # Plot results
-# The Fock states in QuTiP are ordered in binary counting order, meaning that each Fock state corresponds
-# to a binary representation of occupation numbers
+# The Fock states in QuTiP are ordered in binary counting order, meaning that each Fock state corresponds to a binary representation of occupation numbers
 
 # qt.plot_fock_distribution(result.states[-1])
+# plt.title("Fermionic Chain")
 # plt.show()
 # exit()
 # ------------------------------------------------------------------------
 
 
 # ------------------------------------------------------------------------
-# occupations = [qt.expect(create(i, N) * annihilate(i, N), result.states[-1]) for i in range(N)]
-# plt.plot(range(N), occupations, 'o-')
-# plt.xlabel("Site Index")
-# plt.ylabel("Electron Occupation")
-# plt.show()
-# exit()
+occupations = [qt.expect(create(i, N) * annihilate(i, N), result.states[-1]) for i in range(N)]
+plt.plot(range(N), occupations, 'o-')
+plt.xlabel("Site Index")
+plt.ylabel("Electron Occupation")
+plt.show()
+exit()
 # ------------------------------------------------------------------------
 
 
