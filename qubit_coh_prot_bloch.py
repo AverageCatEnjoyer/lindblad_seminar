@@ -17,6 +17,7 @@ H_0 = hbar_omega_half * sigmaz()
 
 # driving Hamiltonian for coherence protection
 A = np.array([1.5 , 1.5 , 1.5]) # A_i \in [0,2\pi]
+A = np.array([0.0 , 0.0 , 0.0]) # A_i \in [0,2\pi]
 H_d = hbar_omega_half * (A[0] * sigmax() + A[1] * sigmay() + A[2] * sigmaz())
 
 # total Hamiltonian
@@ -24,7 +25,7 @@ H = H_0 + H_d
 
 # damping rate / jump operator
 gamma_1spin = 0.25
-L_1spin = sigmam()
+L_1spin = sigmap()
 
 # spin states
 spin_up = np.array([1,0],dtype=np.float64)
@@ -87,7 +88,7 @@ def update(i):
 ani = FuncAnimation(fig, update, frames=len(times), interval=100, repeat=False)
 
 # save if wanted
-# ani.save("qubit_prot_coh_bloch_animation.gif", writer=PillowWriter(fps=20))
+ani.save("qubit_prot_coh_bloch_animation.gif", writer=PillowWriter(fps=20))
 
 plt.show()
 
