@@ -7,13 +7,13 @@ from qutip import mesolve, sigmax, sigmay, sigmaz, Qobj, Bloch
 
 # time/steps
 dt = 0.1
-nsteps = 250
+nsteps = 1000
 times = np.linspace(0,(nsteps-1)*dt,nsteps)
 
 
 # spin-1/2 system Hamiltonian
 tunneling_rate = 2*np.pi * 0.1
-H_1spin = tunneling_rate * sigmax()
+H_1spin = tunneling_rate * sigmaz()
 
 # damping rate / jump operator
 gamma_1spin = 0.05
@@ -87,7 +87,7 @@ def update(i):
 ani = FuncAnimation(fig, update, frames=len(times), interval=100, repeat=False)
 
 # save if wanted
-# ani.save("bloch_animation.gif", writer=PillowWriter(fps=20))
+ani.save("bloch_animation.gif", writer=PillowWriter(fps=20))
 
 plt.show()
 

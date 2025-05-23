@@ -70,8 +70,8 @@ for i in range(nsite-1):
     H_coup += tmp
 H = H_diag - 0.5 * H_coup
 H_qobj = Qobj(H)
-# print(H_qobj)
-
+print(H_coup.real)
+exit()
 
 # fill Lindbladian
 for isite in range(nsite):

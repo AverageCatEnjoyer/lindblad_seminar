@@ -11,7 +11,7 @@ from qutip import *
 
 # time/steps
 dt = 0.1
-nsteps = 250
+nsteps = 1000
 times = np.linspace(0,(nsteps-1)*dt,nsteps)
 
 # Pauli matrices
@@ -19,21 +19,29 @@ sigmax = np.array([[0,1],[1,0]],dtype=np.complex128)
 sigmay = np.array([[0,-1j],[1j,0]],dtype=np.complex128)
 sigmaz = np.array([[1,0],[0,-1]],dtype=np.complex128)
 ident = np.eye(2,dtype=np.complex128)
+sigmap = (sigmax + 1j*sigmay)/2
+sigmam = (sigmax - 1j*sigmay)/2
 
 # spin-1/2 system Hamiltonian
 tunneling_rate = 2*np.pi * 0.1
-H_1spin = tunneling_rate * sigmax
+H_1spin = tunneling_rate * sigmaz
 
 # damping rate / jump operator
 gamma_1spin = 0.05
 L_1spin = sigmax.copy()
 L_1spin_y = sigmay.copy()
 
+L_1spin = sigmap.copy()
+L_1spin_y = sigmam.copy()
+
+
+
 # spin states
 spin_up = np.array([1,0],dtype=np.float64)
 spin_down = np.array([0,1],dtype=np.float64)
 
 rho0_1spin = np.outer(spin_up,spin_up.conj())
+# rho0_1spin = np.outer(spin_down,spin_down.conj())
 # print(rho0_1spin)
 
 
@@ -60,11 +68,11 @@ plt.rcParams['font.size'] = '16'
 fig, ax = plt.subplots(figsize=(9,6))
 ax.plot(times,result_qutip_Liouv.expect[0],alpha=0.3,linestyle='--',label=r'Liouville, $L = 0$')
 
-ax.plot(times,result_qutip.expect[0],label=r'Lindblad, $L \propto \sigma_x$')
+# ax.plot(times,result_qutip.expect[0],label=r'Lindblad, $L \propto \sigma_x$')
 
-ax.plot(times,result_qutip_y.expect[0],label=r'Lindblad, $L \propto \sigma_y$')
+ax.plot(times,result_qutip_y.expect[0],label=r'Lindblad, $L = \sigma_-$')
 
-ax.set_title(r'$H \propto \sigma_x$')
+ax.set_title(r'$H \propto \sigma_z$')
 ax.set_xlabel('Time')
 ax.set_ylabel(r'$\sigma_z$')
 ax.legend()
