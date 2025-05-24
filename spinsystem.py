@@ -58,16 +58,17 @@ result_qutip_y = mesolve(Qobj(H_1spin), Qobj(rho0_1spin), times, e_ops = Qobj(si
 # ---------------plotting--------------------------
 plt.rcParams['font.size'] = '16'
 fig, ax = plt.subplots(figsize=(9,6))
-ax.plot(times,result_qutip_Liouv.expect[0],alpha=0.3,linestyle='--',label=r'Liouville, $L = 0$')
 
+# ax.plot(times,result_qutip_Liouv.expect[0],alpha=0.6,c='red',label=r'Liouville, $L = 0$')
+
+ax.plot(times,result_qutip_Liouv.expect[0],alpha=0.3,c='red',linestyle='--',label=r'Liouville, $L = 0$')
 ax.plot(times,result_qutip.expect[0],label=r'Lindblad, $L \propto \sigma_x$')
-
-ax.plot(times,result_qutip_y.expect[0],label=r'Lindblad, $L \propto \sigma_y$')
+ax.plot(times,result_qutip_y.expect[0],c='green',label=r'Lindblad, $L \propto \sigma_y$')
 
 ax.set_title(r'$H \propto \sigma_x$')
 ax.set_xlabel('Time')
 ax.set_ylabel(r'$\sigma_z$')
-ax.legend()
+ax.legend(loc='upper right')
 plt.show()
 # -------------------------------------------------
 

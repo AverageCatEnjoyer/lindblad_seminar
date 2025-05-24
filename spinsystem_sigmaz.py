@@ -28,12 +28,20 @@ H_1spin = tunneling_rate * sigmaz
 
 # damping rate / jump operator
 gamma_1spin = 0.05
-L_1spin = sigmax.copy()
-L_1spin_y = sigmay.copy()
 
-L_1spin = sigmap.copy()
-L_1spin_y = sigmam.copy()
+# dissipation
+# L_1spin = sigmap.copy()
+# L_1spin_y = sigmam.copy()
 
+
+# competing
+a=1
+b=1
+L_1spin_w = sigmap.copy()
+L_1spin = a*sigmap.copy() + b*sigmam.copy()
+L_1spin_y = 2*a*sigmap.copy() + b*sigmam.copy()
+L_1spin_v = 0.5*a*sigmap.copy() + b*sigmam.copy()
+L_1spin_z = sigmam.copy()
 
 
 # spin states
@@ -53,11 +61,19 @@ rho0_1spin = np.outer(spin_up,spin_up.conj())
 # inputs for mesolve [Hamiltonian , density matrix , time , jump operator , expectation values for observables]
 
 # not give jump operator:Liouville equation
-result_qutip_Liouv = mesolve(Qobj(H_1spin), Qobj(rho0_1spin), times, e_ops = Qobj(sigmaz))
+# result_qutip_Liouv = mesolve(Qobj(H_1spin), Qobj(rho0_1spin), times, e_ops = Qobj(sigmaz))
 
 # with Jump operator -> Lindblad equation
+# result_qutip = mesolve(Qobj(H_1spin), Qobj(rho0_1spin), times, e_ops = Qobj(sigmaz), c_ops = np.sqrt(gamma_1spin)*Qobj(L_1spin))
+# result_qutip_y = mesolve(Qobj(H_1spin), Qobj(rho0_1spin), times, e_ops = Qobj(sigmaz), c_ops = np.sqrt(gamma_1spin)*Qobj(L_1spin_y))
+
+
+# competing
+result_qutip_w = mesolve(Qobj(H_1spin), Qobj(rho0_1spin), times, e_ops = Qobj(sigmaz), c_ops = np.sqrt(gamma_1spin)*Qobj(L_1spin_w))
 result_qutip = mesolve(Qobj(H_1spin), Qobj(rho0_1spin), times, e_ops = Qobj(sigmaz), c_ops = np.sqrt(gamma_1spin)*Qobj(L_1spin))
 result_qutip_y = mesolve(Qobj(H_1spin), Qobj(rho0_1spin), times, e_ops = Qobj(sigmaz), c_ops = np.sqrt(gamma_1spin)*Qobj(L_1spin_y))
+result_qutip_z = mesolve(Qobj(H_1spin), Qobj(rho0_1spin), times, e_ops = Qobj(sigmaz), c_ops = np.sqrt(gamma_1spin)*Qobj(L_1spin_z))
+result_qutip_v = mesolve(Qobj(H_1spin), Qobj(rho0_1spin), times, e_ops = Qobj(sigmaz), c_ops = np.sqrt(gamma_1spin)*Qobj(L_1spin_v))
 
 # print(result_qutip_Liouv.expect[0])
 # exit()
@@ -66,16 +82,29 @@ result_qutip_y = mesolve(Qobj(H_1spin), Qobj(rho0_1spin), times, e_ops = Qobj(si
 # ---------------plotting--------------------------
 plt.rcParams['font.size'] = '16'
 fig, ax = plt.subplots(figsize=(9,6))
-ax.plot(times,result_qutip_Liouv.expect[0],alpha=0.3,linestyle='--',label=r'Liouville, $L = 0$')
+# ax.plot(times,result_qutip_Liouv.expect[0],linestyle=':',alpha=0.8,c='green',label=r'Liouville, $L = 0$',zorder=20)
+# ax.plot(times,result_qutip.expect[0],c='red',label=r'Lindblad, $L \propto \sigma_x$')
+# ax.plot(times,result_qutip_y.expect[0],c='orange',label=r'Lindblad, $L \propto \sigma_y$')
 
-# ax.plot(times,result_qutip.expect[0],label=r'Lindblad, $L \propto \sigma_x$')
 
-ax.plot(times,result_qutip_y.expect[0],label=r'Lindblad, $L = \sigma_-$')
+
+# competing
+ax.plot(times,result_qutip_w.expect[0],c='red',label=r'$\beta = 0$')
+
+ax.plot(times,result_qutip_z.expect[0],label=r'$\alpha=0$')
+
+ax.plot(times,result_qutip_y.expect[0],c='brown',label=r'$\alpha = \frac{1}{2}\beta$')
+
+ax.plot(times,result_qutip.expect[0],c='orange',label=r'$\alpha = \beta$')
+
+ax.plot(times,result_qutip_v.expect[0],c='purple',label=r'$\alpha = 2\beta$')
+
+
 
 ax.set_title(r'$H \propto \sigma_z$')
 ax.set_xlabel('Time')
 ax.set_ylabel(r'$\sigma_z$')
-ax.legend()
+ax.legend(loc='lower left')
 plt.show()
 # -------------------------------------------------
 

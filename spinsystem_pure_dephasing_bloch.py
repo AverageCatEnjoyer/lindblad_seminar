@@ -13,18 +13,21 @@ times = np.linspace(0,(nsteps-1)*dt,nsteps)
 
 # spin-1/2 system Hamiltonian
 tunneling_rate = 2*np.pi * 0.1
-H_1spin = tunneling_rate * sigmax()
+H_1spin = tunneling_rate * sigmaz()
 
 # damping rate / jump operator
 gamma_1spin = 0.05
-L_1spin = sigmax()
+L_1spin = sigmaz()
 L_1spin_y = sigmay()
 
 # spin states
 spin_up = np.array([1,0],dtype=np.float64)
 spin_down = np.array([0,1],dtype=np.float64)
+a = 0.75
+superpos = np.sqrt(a)*spin_up + np.sqrt(1-a)*spin_down
 
 rho0_1spin = np.outer(spin_up,spin_up.conj())
+rho0_1spin = np.outer(superpos,superpos.conj())
 # print(rho0_1spin)
 
 
@@ -66,7 +69,7 @@ b = Bloch(figsize=[6.5,7])
 b.font_size = 16
 b.add_points([expt_x, expt_y, expt_z])
 b.add_points([expt_x_liouv, expt_y_liouv, expt_z_liouv])
-b.add_points([expt_x_y, expt_y_y, expt_z_y])
+# b.add_points([expt_x_y, expt_y_y, expt_z_y])
 
 b.render()
 plt.show()
@@ -81,14 +84,14 @@ def update(i):
     b.clear()
     b.add_points([expt_x[:i+1], expt_y[:i+1], expt_z[:i+1]])
     b.add_points([expt_x_liouv[:i+1], expt_y_liouv[:i+1], expt_z_liouv[:i+1]])
-    b.add_points([expt_x_y[:i+1], expt_y_y[:i+1], expt_z_y[:i+1]])
+    # b.add_points([expt_x_y[:i+1], expt_y_y[:i+1], expt_z_y[:i+1]])
     b.render()
 
 # Build animation
 ani = FuncAnimation(fig, update, frames=len(times), interval=100, repeat=False)
 
 # save if wanted
-# ani.save("bloch_animation.gif", writer=PillowWriter(fps=20))
+ani.save("bloch_animation.gif", writer=PillowWriter(fps=20))
 
 plt.show()
 

@@ -62,15 +62,15 @@ expt_z_y = result_qutip_y.expect[2]
 
 
 # --------------static-bloch-figure-------------------
-b = Bloch(figsize=[6.5,7])
-b.font_size = 16
-b.add_points([expt_x, expt_y, expt_z])
-b.add_points([expt_x_liouv, expt_y_liouv, expt_z_liouv])
-b.add_points([expt_x_y, expt_y_y, expt_z_y])
+# b = Bloch(figsize=[6.5,7])
+# b.font_size = 16
+# b.add_points([expt_x, expt_y, expt_z])
+# b.add_points([expt_x_liouv, expt_y_liouv, expt_z_liouv])
+# b.add_points([expt_x_y, expt_y_y, expt_z_y])
 
-b.render()
-plt.show()
-exit()
+# b.render()
+# plt.show()
+# exit()
 # -------------------------------------------------
 
 # ----------------animation------------------------
@@ -88,7 +88,7 @@ def update(i):
 ani = FuncAnimation(fig, update, frames=len(times), interval=100, repeat=False)
 
 # save if wanted
-# ani.save("bloch_animation.gif", writer=PillowWriter(fps=20))
+ani.save("bloch_animation.gif", writer=PillowWriter(fps=20))
 
 plt.show()
 
