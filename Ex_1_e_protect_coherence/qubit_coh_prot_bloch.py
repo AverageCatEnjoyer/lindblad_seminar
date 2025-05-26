@@ -96,7 +96,7 @@ def update(i):
 ani = FuncAnimation(fig, update, frames=len(times), interval=100, repeat=False)
 
 # save if wanted
-ani.save("qubit_prot_coh_bloch_animation.gif", writer=PillowWriter(fps=20))
+# ani.save("qubit_prot_coh_bloch_animation.gif", writer=PillowWriter(fps=20))
 
 plt.show()
 

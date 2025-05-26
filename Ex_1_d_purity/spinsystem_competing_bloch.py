@@ -136,6 +136,6 @@ def update(i):
 ani = FuncAnimation(fig, update, frames=len(times), interval=10, repeat=False)
 
 # save if wanted
-ani.save("bloch_animation.gif", writer=PillowWriter(fps=20))
+# ani.save("bloch_animation.gif", writer=PillowWriter(fps=20))
 
 plt.show()

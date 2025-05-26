@@ -92,21 +92,23 @@ result = qt.mesolve(H, rho0, t_list, L, [])
 # Plot results
 # The Fock states in QuTiP are ordered in binary counting order, meaning that each Fock state corresponds to a binary representation of occupation numbers
 
-# max_dist = np.max(np.abs(result.states[-1].full()))
-# qt.plot_fock_distribution(result.states[-1])
-# plt.title(f"Fermionic Chain of length {N}")
-# plt.ylim([0,(1.01)*max_dist])
+max_dist = np.max(np.abs(result.states[-1].full()))
+qt.plot_fock_distribution(result.states[-1])
+plt.title(f"Fermionic Chain of length {N}")
+plt.ylim([0,(1.01)*max_dist])
 # plt.show()
 # exit()
 # ------------------------------------------------------------------------
 
 
 # ------------------------------------------------------------------------
-# occupations = [qt.expect(create(i, N) * annihilate(i, N), result.states[-1]) for i in range(N)]
-# plt.plot(range(N), occupations, 'o-')
-# plt.title(f"Fermionic Chain of length {N}")
-# plt.xlabel("Site Index")
-# plt.ylabel(f"Fermion Occupation")
+occupations = [qt.expect(create(i, N) * annihilate(i, N), result.states[-1]) for i in range(N)]
+
+fig, ax = plt.subplots(figsize=(9,6))
+ax.plot(range(N), occupations, 'o-')
+ax.set_title(f"Fermionic Chain of length {N}")
+ax.set_xlabel("Site Index")
+ax.set_ylabel(f"Fermion Occupation")
 # plt.show()
 # exit()
 # ------------------------------------------------------------------------
@@ -122,10 +124,10 @@ curr_in = [gamma_gain*(1-qt.expect(n1, state)) for state in result.states]
 curr_out = [gamma_loss*(qt.expect(nN, state)) for state in result.states]
 
 # Plot occupation vs. time
-fig, ax = plt.subplots(figsize=(9,6))
+fig, ax1 = plt.subplots(figsize=(9,6))
 
-ax.plot(t_list, curr_in, label=r"$I_{\text{in}}$")
-ax.plot(t_list, curr_out, label=r"$I_{\text{out}}$")
+ax1.plot(t_list, curr_in, label=r"$I_{\text{in}}$")
+ax1.plot(t_list, curr_out, label=r"$I_{\text{out}}$")
 plt.xscale("log")
 plt.xlabel("Time")
 plt.ylabel(r"Current $I$")

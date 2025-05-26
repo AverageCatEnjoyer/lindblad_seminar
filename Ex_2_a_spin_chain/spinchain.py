@@ -18,13 +18,14 @@ times = np.linspace(0,(nsteps-1)*dt,nsteps)
 nsite = 3 #amount of spins
 ndvr = 2**nsite #Hilbertspace dimension
 OMEGA_i = [0.65,1.0,1.0]
+# OMEGA_i = [0.0,0.0,0.0]
 Jix = [0.75,1.0]
 Jiy = [0.75,1.0]
 Jiz = [0.0,0.0]
 
 # damping rates
-Gamma1 = [1/30.0] * nsite
-Gamma2 = [1/30.0] * nsite
+Gamma1 = [1/60.0] * nsite #dissipation
+Gamma2 = [1/30.0] * nsite #dephasing
 
 # Lindbladian yet to fill
 Lindbladian = []
@@ -140,13 +141,15 @@ ax.plot(times,overlaps,label='Lindblad')
 ax.set_xlabel('Time')
 ax.set_ylabel('Initial state overlap')
 ax.legend()
-plt.show()
-exit()
+# plt.show()
+# exit()
 # -------------------------------------------------
 
 
 # -------------------------------------------------
+max_dist = np.max(np.abs(result.states[-1].full()))
 qt.plot_fock_distribution(result.states[-1])
 plt.title("Spin Chain")
+plt.ylim([0,(1.01)*max_dist])
 plt.show()
 # -------------------------------------------------
