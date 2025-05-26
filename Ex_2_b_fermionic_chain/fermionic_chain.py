@@ -5,7 +5,7 @@ import qutip as qt
 plt.rcParams['font.size'] = '16'
 
 # System parameters
-N = 10 # Number of sites
+N = 3 # Number of sites
 t = 1  # Hopping amplitude
 mu = 0 # Chemical potential
 F = 0 # Slope chemical potential rampage
@@ -35,7 +35,7 @@ H = sum(
         for i in range(N-1))
 # Chemical potential term
 H += sum(
-    (-mu-F * (i - (N - 1) // 2)) * (create(i, N) * annihilate(i, N)) 
+    (-mu-F * (i - (N - 1) // 2)) * (create(i, N) * annihilate(i, N))
         for i in range(N))
 # Interacting term
 H += sum(
@@ -166,7 +166,7 @@ plt.show()
 
 
 # import numpy as np
-# import scipy.linalg as sp 
+# import scipy.linalg as sp
 # import matplotlib.pyplot as plt
 # import qiskit
 # from qiskit import *
@@ -266,7 +266,7 @@ plt.show()
 
 
 # # initial state (up,down,down)
-# INIT_STATE = spin_up.copy() 
+# INIT_STATE = spin_up.copy()
 # for i in range(nsite-1):
 #     INIT_STATE = np.kron(INIT_STATE,spin_down)
 # INIT_STATE_Qobj = Qobj(INIT_STATE)
