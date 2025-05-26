@@ -15,8 +15,8 @@ sigmaz = np.array([[1,0],[0,-1]],dtype=np.complex128)
 ident = np.eye(2,dtype=np.complex128)
 
 # spin-1/2 system Hamiltonian
-tunneling_rate = 2*np.pi * 0.1
-H_1spin = tunneling_rate * sigmax
+hamiltonian_rate = 2*np.pi * 0.1
+H_1spin = hamiltonian_rate * sigmax
 
 # damping rate / jump operator
 gamma_1spin = 0.05
@@ -27,6 +27,7 @@ L_1spin_y = sigmay.copy()
 spin_up = np.array([1,0],dtype=np.float64)
 spin_down = np.array([0,1],dtype=np.float64)
 
+# initial state
 rho0_1spin = np.outer(spin_up,spin_up.conj())
 # print(rho0_1spin)
 
@@ -65,4 +66,3 @@ ax.set_ylabel(r'$\sigma_z$')
 ax.legend(loc='upper right')
 plt.show()
 # -------------------------------------------------
-

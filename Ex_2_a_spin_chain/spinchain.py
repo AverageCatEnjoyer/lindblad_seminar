@@ -18,6 +18,17 @@ Jix = [0.75,1.0]
 Jiy = [0.75,1.0]
 Jiz = [0.0,0.0]
 
+
+# Pauli matrices
+sigmax = np.array([[0,1],[1,0]],dtype=np.complex128)
+sigmay = np.array([[1,0],[0,-1]],dtype=np.complex128)
+sigmaz = np.array([[0,-1j],[1j,0]],dtype=np.complex128)
+ident = np.eye(2,dtype=np.complex128)
+sigmap = (sigmax + 1j*sigmay)/2
+sigmam = (sigmax - 1j*sigmay)/2
+sigma2 = sigmap@sigmam
+
+
 # damping rates
 Gamma1 = [1/60.0] * nsite #dissipation
 Gamma2 = [1/30.0] * nsite #dephasing
@@ -26,19 +37,23 @@ Gamma2 = [1/30.0] * nsite #dephasing
 Lindbladian = []
 Lindbladian_qobj = []
 
+
 # spin states
 spin_up = np.array([1,0],dtype=np.float64)
 spin_down = np.array([0,1],dtype=np.float64)
 
-# Pauli matrices
-sigmax = np.array([[0,1],[1,0]],dtype=np.complex128)
-sigmay = np.array([[1,0],[0,-1]],dtype=np.complex128)
-sigmaz = np.array([[0,-1j],[1j,0]],dtype=np.complex128)
-ident = np.eye(2,dtype=np.complex128)
+# initial state (up,down,down)
+INIT_STATE = spin_up.copy()
+for i in range(nsite-1):
+    INIT_STATE = np.kron(INIT_STATE,spin_down)
+INIT_STATE_Qobj = Qobj(INIT_STATE)
 
-sigmap = (sigmax + 1j*sigmay)/2
-sigmam = (sigmax - 1j*sigmay)/2
-sigma2 = sigmap@sigmam
+DENSITY_MAT = np.zeros((ndvr,ndvr),dtype=np.complex128)
+DENSITY_MAT = np.outer(INIT_STATE,INIT_STATE.conj())
+DENSITY_MAT_Qobj = Qobj(DENSITY_MAT)
+# print(DENSITY_MAT_Qobj)
+
+
 
 # spin chain Hamiltonian
 H_diag = np.zeros((ndvr,ndvr),dtype=np.complex128) #diagonal part
@@ -94,17 +109,6 @@ for isite in range(nsite):
 # exit()
 
 
-# initial state (up,down,down)
-INIT_STATE = spin_up.copy()
-for i in range(nsite-1):
-    INIT_STATE = np.kron(INIT_STATE,spin_down)
-INIT_STATE_Qobj = Qobj(INIT_STATE)
-
-DENSITY_MAT = np.zeros((ndvr,ndvr),dtype=np.complex128)
-DENSITY_MAT = np.outer(INIT_STATE,INIT_STATE.conj())
-DENSITY_MAT_Qobj = Qobj(DENSITY_MAT)
-# print(DENSITY_MAT_Qobj)
-
 
 # ----------------Qutip---------------------------
 # Liouville (pure spin chain system)
@@ -142,9 +146,10 @@ ax.legend()
 
 
 # -------------------------------------------------
-max_dist = np.max(np.abs(result.states[-1].full()))
 qt.plot_fock_distribution(result.states[-1])
+
 plt.title("Spin Chain")
+max_dist = np.max(np.abs(result.states[-1].full()))
 plt.ylim([0,(1.01)*max_dist])
 plt.show()
 # -------------------------------------------------

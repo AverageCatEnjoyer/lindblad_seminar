@@ -5,7 +5,7 @@ import qutip as qt
 plt.rcParams['font.size'] = '16'
 
 # System parameters
-N = 3 # Number of sites
+N = 10 # Number of sites
 t = 1  # Hopping amplitude
 mu = 0 # Chemical potential
 F = 0 # Slope chemical potential rampage
