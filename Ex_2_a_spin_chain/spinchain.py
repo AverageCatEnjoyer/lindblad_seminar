@@ -1,10 +1,5 @@
 import numpy as np
-import scipy.linalg as sp 
 import matplotlib.pyplot as plt
-import qiskit
-from qiskit import *
-from qiskit_aer import AerSimulator
-from qiskit.quantum_info.operators import Operator
 import qutip as qt
 from qutip import mesolve, Qobj
 
@@ -100,7 +95,7 @@ for isite in range(nsite):
 
 
 # initial state (up,down,down)
-INIT_STATE = spin_up.copy() 
+INIT_STATE = spin_up.copy()
 for i in range(nsite-1):
     INIT_STATE = np.kron(INIT_STATE,spin_down)
 INIT_STATE_Qobj = Qobj(INIT_STATE)

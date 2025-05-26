@@ -1,0 +1,10 @@
+Qutip Tutorial:
+[PDF im Ordner]
+
+Qubit-Coherence Protection:
+X.-L. Zong et al. Laser Phys. Lett. 14 075201 (2017)
+
+
+Chain systems:
+G. Benenti et al. EPL 85 37001 (2009)
+G. Benenti et al. PHYS. REV. B 80 035110 (2009)
