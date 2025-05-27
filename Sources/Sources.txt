@@ -1,4 +1,4 @@
-Qutip Tutorial:
+Qutip Tutorial & spin chain:
 [PDF im Ordner]
 
 Qubit-Coherence Protection:
